@@ -1,14 +1,13 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var newMap
-var markers = []
+  cuisines;
+let map;
+let markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -135,7 +134,7 @@ resetRestaurants = (restaurants) => {
 
   // Remove all map markers
   if (self.markers) {
-    self.markers.forEach(marker => marker.remove());
+    self.markers.forEach(marker => marker.setMap(null));
   }
   self.markers = [];
   self.restaurants = restaurants;
@@ -161,6 +160,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.title = DBHelper.imageAltForRestaurant(restaurant);
   li.append(image);
 
   const name = document.createElement('h1');
@@ -178,6 +178,7 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute('aria-label', `Details about ${restaurant.name}`)
   more.tabIndex = '3';
   li.append(more);
 
