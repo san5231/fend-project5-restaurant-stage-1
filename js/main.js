@@ -1,3 +1,15 @@
+//Register service worker
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register('./sw.js', {scope: './'})
+    .then(function () {
+      console.log('Service Worker registered');
+    })
+    .catch(function () {
+      console.log('Service Worker failed to register');
+    })
+}
+
 let restaurants,
   neighborhoods,
   cuisines;
@@ -210,4 +222,6 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } 
+
+
 
